@@ -1,0 +1,5 @@
+.dce-field-input-wrapper {position: relative; width:100%;}
+label.elementor-field-label {position: relative;}
+label.elementor-field-label .label-icons {position: absolute; top: 50%; transform: translateY(-50%); left: 0;}
+.dce-field-input-wrapper .input-icons { position: absolute; z-index: 100; }
+.elementor-select-wrapper .input-icons { position: absolute; z-index: 100; }
