@@ -1,10 +1,13 @@
 <?php
-/*
-Plugin Name: DC Elementor Fields
-Description: Ajoute des nouveaux types de champs dans Elementor Forms
-Version: 1.1
-Author: @tekno - dynamic creative - © 2025 - tous droits réservés
-Author URI: https://www.dynamic-creative.com
+
+/**
+* Plugin Name: DC Elementor Fields
+* Plugin URI: https://github.com/dynamiccreative/dc-elementor-fields
+* Update URI: https://github.com/dynamiccreative/dc-elementor-fields
+* Description: Ajoute des nouveaux types de champs dans Elementor Forms
+* Version: 1.1.1
+* Author: @tekno - dynamic creative - © 2025 - tous droits réservés
+* Author URI: https://www.dynamic-creative.com
 */
 
 use Elementor\Controls_Manager;
@@ -43,6 +46,8 @@ class Dc_Elementor_Fields {
         require_once DEF_DIR_PATH . 'includes/helper.php';
         /*extensions*/
         require_once DEF_DIR_PATH . 'includes/extensions/icons.php';
+        /**/
+        require_once DEF_DIR_PATH . 'includes/update-plugin.php';
 
     }
 
