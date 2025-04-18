@@ -42,7 +42,7 @@ class Fields_GitHub_Updater {
         add_filter( 'pre_set_site_transient_update_plugins', [ $this, 'check_for_updates' ] );
         add_filter( 'plugins_api', [ $this, 'plugin_info' ], 9999, 3 );
         add_filter( 'upgrader_post_install', [ $this, 'post_install' ], 10, 3 );
-        add_filter( 'plugin_row_meta', [ $this, 'fields_row_meta' ], 10, 2 );
+        add_filter( 'plugin_row_meta', [ $this, 'fields_row_meta' ], 10, 4 );
     }
 
     /**
@@ -202,9 +202,15 @@ class Fields_GitHub_Updater {
     /*
      * Ajoute une icone à droite da la version dans la vue liste
      */
-    public function fields_row_meta($links, $file) {
+    public function fields_row_meta($links, $file, $plugin_data, $status) {
         if ($this->config['slug'] === $file) {
-            $links[] = '<img src="' . $this->config['icon_url'] . '" alt="Icon" style="width:16px;height:16px;vertical-align:middle;" />';
+            $links[] = sprintf(
+                '<a href="%s" class="thickbox open-plugin-details-modal" aria-label="%s" data-title="%s"><img src="' . $this->config['icon_url'] . '" alt="Icon" style="width:16px;height:16px;vertical-align:middle;" /></a>',
+                esc_url(admin_url('plugin-install.php?tab=plugin-information&plugin=' . $this->config['repo'] . '&TB_iframe=true&width=600&height=550')),
+                esc_attr(sprintf(__('Voir les détails du plugin %s', 'text-domain'), $plugin_data['Name'])),
+                esc_attr($plugin_data['Name']),
+                __('Afficher les détails', 'text-domain')
+            );
         }
         return $links;
     }

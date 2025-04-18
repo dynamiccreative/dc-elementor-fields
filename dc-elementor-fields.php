@@ -5,8 +5,8 @@
 * Plugin URI: https://github.com/dynamiccreative/dc-elementor-fields
 * Update URI: https://github.com/dynamiccreative/dc-elementor-fields
 * Description: Ajoute des nouveaux types de champs dans Elementor Forms
-* Version: 1.1.1
-* Author: @tekno - dynamic creative - © 2025 - tous droits réservés
+* Version: 1.1.2
+* Author: Team dynamic creative
 * Author URI: https://www.dynamic-creative.com
 */
 
