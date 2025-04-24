@@ -1,13 +1,17 @@
 <?php
-
 /**
 * Plugin Name: DC Elementor Fields
 * Plugin URI: https://github.com/dynamiccreative/dc-elementor-fields
 * Update URI: https://github.com/dynamiccreative/dc-elementor-fields
 * Description: Ajoute des nouveaux types de champs dans Elementor Forms
-* Version: 1.1.2
+* Version: 1.1.3
 * Author: Team dynamic creative
 * Author URI: https://www.dynamic-creative.com
+* Primary Branch: main
+* Domain Path: /languages
+* Text Domain: dc-elementor-fields
+* Tested up to:       6.8
+* Requires at least:  6.7
 */
 
 use Elementor\Controls_Manager;
@@ -29,8 +33,17 @@ define( 'DEF_ASSETS', trailingslashit( DEF_DIR_URL . 'assets' ) );
 
 class Dc_Elementor_Fields {
 
+     private $config = [
+        'slug'          => 'dc-elementor-fields/dc-elementor-fields.php',
+        'repo'          => 'dc-elementor-fields',
+        'access_token'  => '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',
+        'icon_url'      => 'https://raw.githubusercontent.com/dynamiccreative/dc-scroll-top/main/assets/img/icon-256x256.png',
+        'banner_url'      => 'https://raw.githubusercontent.com/dynamiccreative/dc-scroll-top/main/assets/img/banner-1544x500.png',
+    ];
+
     public function __construct() {
         $this->include_files();
+        $this->update_plugin();
 
         add_action('wp_enqueue_scripts', [$this, 'enqueue_scripts']);
         add_action( 'elementor_pro/forms/fields/register', [$this, 'register_field'] );
@@ -39,16 +52,23 @@ class Dc_Elementor_Fields {
         add_action('admin_init', [$this, 'register_settings']);
 
         add_filter( 'plugin_action_links_' . DEF_BASE, [$this, 'def_settings_link'], 10, 2 );
+        add_filter( 'plugin_row_meta', [ $this, 'icon_row_meta' ], 10, 4 );
     }
 
     public function include_files() {
-
         require_once DEF_DIR_PATH . 'includes/helper.php';
         /*extensions*/
         require_once DEF_DIR_PATH . 'includes/extensions/icons.php';
-        /**/
-        require_once DEF_DIR_PATH . 'includes/update-plugin.php';
+    }
 
+    public function update_plugin() {
+        require_once DEF_DIR_PATH . 'includes/GitHubUpdater.php';
+        $gitHubUpdater = new DefGitHubUpdater(DEF_FILE);
+        $gitHubUpdater->setAccessToken($this->config['access_token']);
+        $gitHubUpdater->setPluginIcon($this->config['icon_url']);
+        $gitHubUpdater->setPluginBannerSmall($this->config['banner_url']);
+        $gitHubUpdater->setPluginBannerLarge($this->config['banner_url']);
+        $gitHubUpdater->add();
     }
 
     public function register_field($form_fields_registrar) {
@@ -60,8 +80,18 @@ class Dc_Elementor_Fields {
         $form_fields_registrar->register( new \Custom_Select2_Field() );
         
     }
-    
 
+    /*
+     * Ajoute une icone à droite da la version dans la vue liste
+     */
+    public function icon_row_meta($links, $file, $plugin_data, $status) {
+        if ($this->config['slug'] === $file) {
+            $links[] = '<a href="'.esc_attr($plugin_data['id']).'" class="" target="_blank"><img src="' . $this->config['icon_url'] . '" alt="Icon" style="width:16px;height:16px;vertical-align:middle;"/></a>';
+        }
+        return $links;
+    }
+    
+    /**/
     public function enqueue_scripts() {
         // autocomplete
         if (class_exists('\ElementorPro\Modules\Forms\Module')) {
