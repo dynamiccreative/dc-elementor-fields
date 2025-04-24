@@ -10,4 +10,4 @@ Ajoute des nouveaux type de champ dans le widget form d'elementor
 
 ## Extensions
 
-- Icons
+- Icons : Add icon inside field
