@@ -36,7 +36,7 @@ class Dc_Elementor_Fields {
      private $config = [
         'slug'          => 'dc-elementor-fields/dc-elementor-fields.php',
         'repo'          => 'dc-elementor-fields',
-        'access_token'  => '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',
+        'access_token'  => '',
         'icon_url'      => 'https://raw.githubusercontent.com/dynamiccreative/dc-scroll-top/main/assets/img/icon-256x256.png',
         'banner_url'      => 'https://raw.githubusercontent.com/dynamiccreative/dc-scroll-top/main/assets/img/banner-1544x500.png',
     ];
@@ -64,7 +64,7 @@ class Dc_Elementor_Fields {
     public function update_plugin() {
         require_once DEF_DIR_PATH . 'includes/GitHubUpdater.php';
         $gitHubUpdater = new DefGitHubUpdater(DEF_FILE);
-        $gitHubUpdater->setAccessToken($this->config['access_token']);
+        //$gitHubUpdater->setAccessToken($this->config['access_token']);
         $gitHubUpdater->setPluginIcon($this->config['icon_url']);
         $gitHubUpdater->setPluginBannerSmall($this->config['banner_url']);
         $gitHubUpdater->setPluginBannerLarge($this->config['banner_url']);
@@ -86,7 +86,8 @@ class Dc_Elementor_Fields {
      */
     public function icon_row_meta($links, $file, $plugin_data, $status) {
         if ($this->config['slug'] === $file) {
-            $links[] = '<a href="'.esc_attr($plugin_data['id']).'" class="" target="_blank"><img src="' . $this->config['icon_url'] . '" alt="Icon" style="width:16px;height:16px;vertical-align:middle;"/></a>';
+            //var_dump($plugin_data);
+            $links[] = '<a href="'.esc_attr($plugin_data['PluginURI']).'" class="" target="_blank"><img src="' . $this->config['icon_url'] . '" alt="Icon" style="width:16px;height:16px;vertical-align:middle;"/></a>';
         }
         return $links;
     }

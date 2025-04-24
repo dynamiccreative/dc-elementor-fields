@@ -4,7 +4,6 @@
  * either a public or private repository on GitHub.
  *
  * @author Ryan Sechrest
- * @package RYSE\DCElementorFields
  * @version 1.1.0
  */
 class DefGitHubUpdater
