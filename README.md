@@ -14,3 +14,4 @@ Ajoute des nouveaux type de champ dans le widget form d'elementor
 
 ## Author
 * [Dynamic Creative](https://dynamic-creative.com) - Agence digitale / Infogérance
+* @teknopop-dc
