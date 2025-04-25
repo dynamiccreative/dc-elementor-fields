@@ -4,7 +4,7 @@
 * Plugin URI: https://github.com/dynamiccreative/dc-elementor-fields
 * Update URI: https://github.com/dynamiccreative/dc-elementor-fields
 * Description: Ajoute des nouveaux types de champs dans Elementor Forms
-* Version: 1.1.3
+* Version: 1.1.4
 * Author: Team dynamic creative
 * Author URI: https://www.dynamic-creative.com
 * Primary Branch: main
@@ -48,7 +48,7 @@ class Dc_Elementor_Fields {
         add_action('wp_enqueue_scripts', [$this, 'enqueue_scripts']);
         add_action( 'elementor_pro/forms/fields/register', [$this, 'register_field'] );
         
-        add_action('admin_menu', [$this, 'add_settings_page']);
+        add_action('admin_menu', [$this, 'add_settings_page'], 20);
         add_action('admin_init', [$this, 'register_settings']);
 
         add_filter( 'plugin_action_links_' . DEF_BASE, [$this, 'def_settings_link'], 10, 2 );
@@ -130,13 +130,25 @@ class Dc_Elementor_Fields {
     }
     
     public function add_settings_page() {
-        add_options_page(
-            'Fields Settings',
-            'DC Elementor Fields',
-            'manage_options',
-            'def-settings',
-            [$this, 'render_settings_page']
-        );
+        if ( is_plugin_active('dc-support-technique/dc-support-technique.php') ) {
+            add_submenu_page(
+                'dc-settings',
+                'Fields Settings',
+                'Elementor Fields',
+                'manage_options',
+                'def-settings',
+                [$this, 'render_settings_page'],
+                30
+            );
+        } else {
+            add_options_page(
+                'Fields Settings',
+                'DC Elementor Fields',
+                'manage_options',
+                'def-settings',
+                [$this, 'render_settings_page']
+            );
+        }
     }
     
     public function register_settings() {
