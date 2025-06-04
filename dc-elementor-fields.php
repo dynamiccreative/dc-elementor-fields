@@ -4,7 +4,7 @@
 * Plugin URI: https://github.com/dynamiccreative/dc-elementor-fields
 * Update URI: https://github.com/dynamiccreative/dc-elementor-fields
 * Description: Ajoute des nouveaux types de champs dans Elementor Forms
-* Version: 1.1.4
+* Version: 1.2.0
 * Author: Team dynamic creative
 * Author URI: https://www.dynamic-creative.com
 * Primary Branch: main
@@ -78,6 +78,9 @@ class Dc_Elementor_Fields {
 
         require_once(__DIR__ . '/includes/fields/select2.php');
         $form_fields_registrar->register( new \Custom_Select2_Field() );
+
+        require_once(__DIR__ . '/includes/fields/select-posts.php');
+        $form_fields_registrar->register( new \Select_Posts_Field() );
         
     }
 
