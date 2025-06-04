@@ -7,6 +7,7 @@ Ajoute des nouveaux type de champ dans le widget form d'elementor
 
 - Google Autocomplete City
 - Select 2 Style
+- Select Posts
 
 ## Extensions
 
