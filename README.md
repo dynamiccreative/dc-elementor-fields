@@ -2,7 +2,7 @@
 
 Ajoute de nouveaux types de champs personnalisés dans le widget Form d'Elementor Pro.
 
-![Version](https://img.shields.io/badge/version-1.3.0-blue)
+![Version](https://img.shields.io/badge/version-1.3.1-blue)
 ![WordPress](https://img.shields.io/badge/WordPress-6.7%2B-green)
 ![Elementor Pro](https://img.shields.io/badge/Elementor%20Pro-Required-orange)
 ![Downloads](https://img.shields.io/github/downloads/dynamiccreative/dc-elementor-fields/total)
