@@ -95,10 +95,10 @@ class Dc_Elementor_Fields {
     public function update_plugin() {
         require_once DEF_DIR_PATH . 'includes/GitHubUpdater.php';
         $gitHubUpdater = new DefGitHubUpdater(DEF_FILE);
-        //$gitHubUpdater->setAccessToken($this->config['access_token']);
         $gitHubUpdater->setPluginIcon($this->config['icon_url']);
         $gitHubUpdater->setPluginBannerSmall($this->config['banner_url']);
         $gitHubUpdater->setPluginBannerLarge($this->config['banner_url']);
+        $gitHubUpdater->setChangelog('CHANGELOG.md');
         $gitHubUpdater->add();
     }
 
