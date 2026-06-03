@@ -5,6 +5,17 @@ Tous les changements notables de ce plugin sont documentés dans ce fichier.
 Le format s'appuie sur [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/),
 et ce projet suit le [versionnement sémantique](https://semver.org/lang/fr/).
 
+## [1.3.3] — 2026-06-03
+
+### Ajouté
+- Autocomplétion Select2 sur le champ **Select CPT** (filtrage côté client).
+- Hooks de personnalisation de la requête par `custom_id` :
+  - `$item['query_args']` lu dans `render()` (à poser via `elementor_pro/forms/render/item`).
+  - Filtre dédié `def_select_posts_query_args( $args, $item, $form )`.
+
+### Modifié
+- Chargement de la lib Select2 déclenché également quand le champ Select CPT est actif.
+
 ## [1.3.2] — 2026-05-18
 
 ### Ajouté

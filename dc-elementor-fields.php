@@ -4,7 +4,7 @@
 * Plugin URI: https://github.com/dynamiccreative/dc-elementor-fields
 * Update URI: https://github.com/dynamiccreative/dc-elementor-fields
 * Description: Ajoute des nouveaux types de champs dans Elementor Forms
-* Version: 1.3.2
+* Version: 1.3.3
 * Author: Team dynamic creative
 * Author URI: https://www.dynamic-creative.com
 * Primary Branch: main
@@ -30,7 +30,7 @@ define( 'DEF_BASE', plugin_basename( __FILE__ ) );
 define( 'DEF_DIR_PATH', plugin_dir_path( DEF_FILE ) );
 define( 'DEF_DIR_URL', plugin_dir_url( DEF_FILE ) );
 define( 'DEF_ASSETS', trailingslashit( DEF_DIR_URL . 'assets' ) );
-define( 'DEF_VERSION', '1.3.2' );
+define( 'DEF_VERSION', '1.3.3' );
 define( 'DEF_PAGE_SLUG', 'def-settings' );
 define( 'DEF_NONCE_ACTION', 'def_api_keys' );
 
@@ -166,9 +166,10 @@ class Dc_Elementor_Fields {
             }
         }
 
-        $def_select2 = get_option('def_select2', false);
-        if ($def_select2) {
-            // select2
+        $def_select2      = get_option('def_select2', false);
+        $def_select_posts = get_option('def_select_posts', false);
+        if ($def_select2 || $def_select_posts) {
+            // select2 (chargé aussi pour le champ Select CPT afin d'activer l'autocomplétion côté client)
             wp_enqueue_style('select2','https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css', [], '4.1.0');
             wp_enqueue_script('select2', 'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js', ['jquery'], '4.1.0', true);
             wp_add_inline_script('select2', 'jQuery(document).ready(function($) {$(".custom-select2-field").each(function() {if (!$(this).hasClass("select2-hidden-accessible")) { $(this).select2({ placeholder: $(this).data("placeholder"), allowClear: true, width: "100%" }); } }); });'

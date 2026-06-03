@@ -58,22 +58,36 @@ class Select_Posts_Field extends \ElementorPro\Modules\Forms\Fields\Field_Base {
             'posts_per_page' => -1,
             'post_status' => 'publish',
         ];
-        //$posts = get_posts($args);
+
+		// Per-field overrides injectés via elementor_pro/forms/render/item :
+		//   add_filter('elementor_pro/forms/render/item', function ($item, $item_index, $form) {
+		//       if (!empty($item['custom_id']) && $item['custom_id'] === 'mon-id') {
+		//           $item['query_args'] = [
+		//               'meta_key' => 'featured', 'meta_value' => '1',
+		//               'orderby'  => 'title', 'order' => 'ASC',
+		//           ];
+		//       }
+		//       return $item;
+		//   }, 10, 3);
+		if ( ! empty( $item['query_args'] ) && is_array( $item['query_args'] ) ) {
+			$args = array_merge( $args, $item['query_args'] );
+		}
+
+		// Filtre dédié pour un ciblage fin par custom_id sans passer par $item.
+		$args = apply_filters( 'def_select_posts_query_args', $args, $item, $form );
 
 		$form->add_render_attribute(
 			'select' . $item_index,
 			[
-				'class' => 'elementor-field-textual elementor-size-sm elementor-field-select-posts',
+				'class' => 'elementor-field-textual elementor-size-sm elementor-field-select-posts custom-select2-field',
 				'title' => esc_html__( 'Formations', 'dc-elementor-fields' ),
 				'name' => 'form_fields['.$item["custom_id"].']',
 				'id' => 'form-field-'.$item["custom_id"],
+				'data-placeholder' => $item['field_label'],
 			]
 		);
 		$requis = '';
 		if ($item['required']) $requis = 'required="required"';
-		//$slug = $item['slug-posttype'];
-		//if (!$slug) $slug = 'formation';
-		//$args = array( 'posts_per_page' => -1, 'post_type' => $slug );
     	$loop = new WP_Query( $args );
     	$s = "";
     	while ( $loop->have_posts() ) : $loop->the_post();
