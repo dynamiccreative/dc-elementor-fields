@@ -5,6 +5,13 @@ Tous les changements notables de ce plugin sont documentés dans ce fichier.
 Le format s'appuie sur [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/),
 et ce projet suit le [versionnement sémantique](https://semver.org/lang/fr/).
 
+## [1.3.4] — 2026-08-21
+
+### Corrigé
+- **Le champ « Placeholder » des formulaires Elementor disparaissait** dès que le champ *Select 2* était activé : le module redéclarait un contrôle nommé `placeholder`, écrasant le contrôle natif d'Elementor Pro. La condition injectée (`field_type = custom_select2`) faisait ensuite supprimer la valeur par `get_active_settings()` pour tous les autres types de champs — placeholder absent dans l'éditeur comme au front. Le contrôle natif est désormais réutilisé, le type Select2 étant simplement ajouté à sa liste de `field_type` autorisés.
+- Contrôles *Options* et *Sélection Multiple* rattachés à l'onglet Contenu du répéteur (`tab` / `inner_tab` / `tabs_wrapper`).
+- Rendu du champ Select 2 sécurisé contre les clés absentes (plus de warning PHP).
+
 ## [1.3.3] — 2026-06-03
 
 ### Ajouté

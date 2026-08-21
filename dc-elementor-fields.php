@@ -4,7 +4,7 @@
 * Plugin URI: https://github.com/dynamiccreative/dc-elementor-fields
 * Update URI: https://github.com/dynamiccreative/dc-elementor-fields
 * Description: Ajoute des nouveaux types de champs dans Elementor Forms
-* Version: 1.3.3
+* Version: 1.3.4
 * Author: Team dynamic creative
 * Author URI: https://www.dynamic-creative.com
 * Primary Branch: main
@@ -30,7 +30,7 @@ define( 'DEF_BASE', plugin_basename( __FILE__ ) );
 define( 'DEF_DIR_PATH', plugin_dir_path( DEF_FILE ) );
 define( 'DEF_DIR_URL', plugin_dir_url( DEF_FILE ) );
 define( 'DEF_ASSETS', trailingslashit( DEF_DIR_URL . 'assets' ) );
-define( 'DEF_VERSION', '1.3.3' );
+define( 'DEF_VERSION', '1.3.4' );
 define( 'DEF_PAGE_SLUG', 'def-settings' );
 define( 'DEF_NONCE_ACTION', 'def_api_keys' );
 

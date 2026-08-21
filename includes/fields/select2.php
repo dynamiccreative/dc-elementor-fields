@@ -45,6 +45,9 @@ class Custom_Select2_Field extends \ElementorPro\Modules\Forms\Fields\Field_Base
                     'condition' => [
                         'field_type' => $this->get_type(),
                     ],
+                    'tab'          => 'content',
+                    'inner_tab'    => 'form_fields_content_tab',
+                    'tabs_wrapper' => 'form_fields_tabs',
                 ],
                 'multiple' => [
                     'name' => 'multiple',
@@ -54,19 +57,28 @@ class Custom_Select2_Field extends \ElementorPro\Modules\Forms\Fields\Field_Base
                     'condition' => [
                         'field_type' => $this->get_type(),
                     ],
-                ],
-                'placeholder' => [
-                    'name' => 'placeholder',
-                    'label' => __('Placeholder', 'votre-plugin'),
-                    'type' => \Elementor\Controls_Manager::TEXT,
-                    'default' => __('Sélectionnez une option', 'votre-plugin'),
-                    'condition' => [
-                        'field_type' => $this->get_type(),
-                    ],
+                    'tab'          => 'content',
+                    'inner_tab'    => 'form_fields_content_tab',
+                    'tabs_wrapper' => 'form_fields_tabs',
                 ],
             ];
 
             $control_data['fields'] = $this->inject_field_controls( $control_data['fields'], $field_controls );
+
+            // Ne JAMAIS redéclarer le contrôle « placeholder » ici : sa clé est celle du
+            // contrôle natif d'Elementor Pro, le redéclarer l'écrase et fait disparaître le
+            // placeholder de tous les autres types de champs (dans l'éditeur comme au front,
+            // get_active_settings() supprimant la valeur des contrôles dont la condition
+            // n'est pas remplie). On réutilise le contrôle natif en ajoutant simplement notre
+            // type de champ à sa liste de field_type autorisés.
+            if ( isset( $control_data['fields']['placeholder']['conditions']['terms'] ) && is_array( $control_data['fields']['placeholder']['conditions']['terms'] ) ) {
+                foreach ( $control_data['fields']['placeholder']['conditions']['terms'] as &$term ) {
+                    if ( isset( $term['name'], $term['value'] ) && 'field_type' === $term['name'] && is_array( $term['value'] ) && ! in_array( $this->get_type(), $term['value'], true ) ) {
+                        $term['value'][] = $this->get_type();
+                    }
+                }
+                unset( $term );
+            }
 
             $widget->update_control( 'form_fields', $control_data );
         }
@@ -75,7 +87,8 @@ class Custom_Select2_Field extends \ElementorPro\Modules\Forms\Fields\Field_Base
 
         // Rendre le champ dans le frontend
         public function render($item, $item_index, $form) {
-            $options_raw = $item['options'];
+            $options_raw = $item['options'] ?? '';
+            $placeholder = $item['placeholder'] ?? '';
             $options = [];
             
             // Parse les options
@@ -90,8 +103,8 @@ class Custom_Select2_Field extends \ElementorPro\Modules\Forms\Fields\Field_Base
             }
             
             $field_id = $form->get_id() . '_' . $item['custom_id'];
-            $multiple = $item['multiple'] === 'yes' ? 'multiple' : '';
-            $required = $item['required'] ? 'required' : '';
+            $multiple = ( ( $item['multiple'] ?? '' ) === 'yes' ) ? 'multiple' : '';
+            $required = ! empty( $item['required'] ) ? 'required' : '';
             
             // Générer le HTML du champ
             $form->add_render_attribute(
@@ -100,13 +113,13 @@ class Custom_Select2_Field extends \ElementorPro\Modules\Forms\Fields\Field_Base
                     'name' => "fields[{$item['custom_id']}]" . ($multiple ? '[]' : ''),
                     'id' => $field_id,
                     'class' => ['custom-select2-field', 'elementor-field'],
-                    'data-placeholder' => $item['placeholder'],
+                    'data-placeholder' => $placeholder,
                 ]
             );
             
             ?>
             <select <?php echo $form->get_render_attribute_string('select' . $item['custom_id']); ?> <?php echo $multiple; ?> <?php echo $required; ?>>
-                <option value=""><?php echo esc_html($item['placeholder']); ?></option>
+                <option value=""><?php echo esc_html($placeholder); ?></option>
                 <?php
                 foreach ($options as $value => $label) {
                     echo '<option value="' . esc_attr($value) . '">' . esc_html($label) . '</option>';
