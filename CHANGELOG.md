@@ -5,6 +5,11 @@ Tous les changements notables de ce plugin sont documentés dans ce fichier.
 Le format s'appuie sur [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/),
 et ce projet suit le [versionnement sémantique](https://semver.org/lang/fr/).
 
+## [1.3.5] — 2026-09-11
+
+### Ajouté
+- Filtre `def_select_posts_option_label( $label, $post_id, $item, $form )` sur le libellé des options du champ **Select CPT**. Permet de compléter le titre (date, lieu…) quand plusieurs posts d'un même CPT portent le même intitulé. La troncature à 60 caractères s'applique après le filtre.
+
 ## [1.3.4] — 2026-08-21
 
 ### Corrigé

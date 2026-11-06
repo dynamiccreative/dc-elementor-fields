@@ -93,7 +93,16 @@ class Select_Posts_Field extends \ElementorPro\Modules\Forms\Fields\Field_Base {
     	while ( $loop->have_posts() ) : $loop->the_post();
     		$se = '';
     		if (get_post_field( 'post_name' ) == $item['post-selected']) $se = 'selected';
-    		$s .= '<option value="'.get_post_field( 'post_name' ).'" '.$se.'>'.mb_strimwidth(get_the_title(), 0, 60, '...', 'UTF-8').'</option>';
+
+    		// Libellé filtrable : permet de compléter le titre (date, lieu…)
+    		// quand plusieurs posts du CPT portent le même intitulé.
+    		//   add_filter('def_select_posts_option_label', function ($label, $post_id, $item, $form) {
+    		//       return $label . ' — ' . get_field('date_debut', $post_id);
+    		//   }, 10, 4);
+    		// La troncature à 60 caractères s'applique après le filtre.
+    		$label = apply_filters( 'def_select_posts_option_label', get_the_title(), get_the_ID(), $item, $form );
+
+    		$s .= '<option value="'.get_post_field( 'post_name' ).'" '.$se.'>'.mb_strimwidth($label, 0, 60, '...', 'UTF-8').'</option>';
     	endwhile;
     	wp_reset_postdata();
     	if ($s) {
